@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "listing-22-1", "listing-22-1.vcxproj", "{E1405F0B-DE30-3EF8-A847-EFBB3E7E4127}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "listing-22-1", "listing-22-1\listing-22-1.vcxproj", "{E1405F0B-DE30-3EF8-A847-EFBB3E7E4127}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "listing-25-1", "listing-25-1\listing-25-1.vcxproj", "{787170FE-1468-3624-8040-21D153B17C04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E1405F0B-DE30-3EF8-A847-EFBB3E7E4127}.Debug|x64.Build.0 = Debug|x64
 		{E1405F0B-DE30-3EF8-A847-EFBB3E7E4127}.Release|x64.ActiveCfg = Release|x64
 		{E1405F0B-DE30-3EF8-A847-EFBB3E7E4127}.Release|x64.Build.0 = Release|x64
+		{787170FE-1468-3624-8040-21D153B17C04}.Debug|x64.ActiveCfg = Debug|x64
+		{787170FE-1468-3624-8040-21D153B17C04}.Debug|x64.Build.0 = Debug|x64
+		{787170FE-1468-3624-8040-21D153B17C04}.Release|x64.ActiveCfg = Release|x64
+		{787170FE-1468-3624-8040-21D153B17C04}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
