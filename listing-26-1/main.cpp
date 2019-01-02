@@ -69,7 +69,7 @@ int main()
 		pFish2->Swim();
 
 		//释放内存
-		pFish.reset(); // no double free
+		pFish.reset(); // pFish no ctrl, no descon called, no double free
 		pFish2.reset();
 		//运行时错误
 		//pFish2->Swim();
@@ -85,11 +85,65 @@ int main()
 		fish->Swim();
 		//unique_ptr包含无效指针,运行时错误
 		//pFish4->Swim();
+		delete fish;
+		fish = NULL;
 	}
 
 	/// shared_ptr
+	/// 引用计数
+	{
+		shared_ptr<Fish> pFish(new Fish("shared_ptr"));
+		shared_ptr<Fish> pFish2(pFish);
+
+		cout << pFish2.use_count() << endl;
+
+		pFish.reset();
+		cout << pFish2.use_count() << endl;
+
+		cout << "pInt=" << pFish << endl;
+		cout << "pInt2=" << pFish2 << endl;
+
+		if (pFish2)
+		{
+			pFish2->Swim();
+		}
+		
+		if (pFish)
+		{
+			pFish->Swim();
+		}	
+
+		//引用为0时，释放指针
+		//问：假设有一个应用程序，其中的 Class1 和 Class2 类分别包含一个指向 Class2 对象和 Class1
+		//	对象的成员属性。在这种情况下，是否应使用引用计数指针？
+		//答： 不应该。由于生命周期依赖性，引用计数将不会减少到零，导致两个类的对象永久性地留在
+		//	堆中
+		pFish2.reset();
+		cout << pFish2.use_count() << endl;
+	}
 
 	/// weak_ptr
+	/// weak_ptr的构造析构不会引起引用数的变化
+	{
+		shared_ptr<Fish> pfish(new Fish("pfish"));
+		shared_ptr<Fish> pfish2(pfish);
+		
+		{
+			weak_ptr<Fish> pwfish = pfish;
+			cout << pwfish.use_count() << endl;
+
+			shared_ptr<Fish> pfish3 = pwfish.lock();
+			cout << pwfish.use_count() << endl;
+		}
+
+		cout << pfish.use_count() << endl;
+
+		pfish.reset();
+		pfish2.reset();
+
+		weak_ptr<Fish> pwfish(pfish);
+		cout << (pwfish.lock() == nullptr) << endl;
+	}
 
     return 0;
 }
