@@ -5,7 +5,8 @@
  * \brief	Implements the main class
  **************************************************************************************************/
  
-#if 1
+#if 0
+// 异常，未能定位，待查，搁置。
 #include <iostream>
 
 using namespace std;
@@ -16,6 +17,7 @@ public:
 	MyString(const char* ch)
 	{
 		cout << "ctor called" << endl;
+		m_pBuffer = NULL;
 
 		if (ch != NULL)
 		{
@@ -24,17 +26,13 @@ public:
 			m_pBuffer = new char[strLen + 1];
 			strcpy(m_pBuffer, ch);
 		}
-		else
-		{
-			m_pBuffer = NULL;
-		}
 	}
 
 	MyString(const MyString& other)
 	{
 		m_pBuffer = NULL;
 
-		if (other.m_pBuffer != NULL)
+		if (other.m_pBuffer != NULL) //不能从外部访问类的私有数据成员和方法
 		{
 			int strLen = strlen(other.m_pBuffer);
 
@@ -47,12 +45,7 @@ public:
 
 	~MyString()
 	{
-		// shadow copy may double free
-// 		if (m_pBuffer != NULL)
-// 		{
-// 			delete[] m_pBuffer;
-// 			m_pBuffer = NULL;
-// 		}
+		delete[] m_pBuffer;
 
 		cout << "dtor called" << endl;
 	}
@@ -130,20 +123,6 @@ public:
 		}
 	}
 
-	MyString operator+ (const MyString& addThis)
-	{
-		MyString newString;
-
-		if (addThis.buffer != NULL)
-		{
-			newString.buffer = new char[GetLength() + strlen(addThis.buffer) + 1];
-			strcpy(newString.buffer, buffer);
-			strcat(newString.buffer, addThis.buffer);
-		}
-
-		return newString;
-	}
-
 	// Destructor
 	~MyString()
 	{
@@ -162,7 +141,7 @@ public:
 	}
 };
 
-void UseMyString(MyString str)
+void UseMyString(MyString& str)
 {
 	cout << "String buffer in MyString is " << str.GetLength();
 	cout << " characters long" << endl;
@@ -171,10 +150,29 @@ void UseMyString(MyString str)
 	return;
 }
 
+MyString CopySring(MyString& src)
+{
+	MyString copy(src.GetString());
+	return copy;
+}
+
 int main()
 {
 	MyString sayHello("Hello from String Class");
 	UseMyString(sayHello);
+
+	{
+		/*
+		 * 问：在复制构造函数中，为何将指向源对象的引用作为参数？
+		 * 答： 这是编译器对复制构造函数的要求。其原因是，如果按值接受源对象，复制构造函数将调用
+		 * 自己，导致没完没了的复制循环。
+		 */
+		MyString str1;
+		CopySring(str1);
+
+		 //移动构造函数
+
+	}
 
 	return 0;
 }
